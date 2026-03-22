@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Joyshree ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+
+  background: linear-gradient(270deg, #860B8C, #ff6a88, #fad0c4);
+  background-size: 600% 600%;
+  animation: bg 10s ease infinite;
+}
+
+@keyframes bg {
+  0% {background-position:0%}
+  50% {background-position:100%}
+  100% {background-position:0%}
+}
+
+h1 {
+  margin-top: 80px;
+  font-size: 2.5em;
+  text-shadow: 0 0 20px #860B8C, 0 0 40px #860B8C;
+}
+
+#typing {
+  font-size: 1.8em;
+  margin-top: 20px;
+  border-right: 2px solid white;
+  display: inline-block;
+  padding-right: 5px;
+}
+
+button {
+  margin: 10px;
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: none;
+  background: #860B8C;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 15px #860B8C;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+#message {
+  margin-top: 20px;
+  font-size: 1.3em;
+}
+
+img {
+  width: 200px;
+  border-radius: 20px;
+  margin: 10px;
+  box-shadow: 0 0 20px #860B8C;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- 🎵 Audio -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<!-- 🎵 Music Button -->
+<button id="musicBtn" onclick="toggleMusic()">▶️</button>
+<canvas id="canvas"></canvas>
+
+<h1 id="title"></h1>
+
+<div id="typing"></div>
+
+<p>Will you forgive me? 💔</p>
+
+<button onclick="yesClick()">YES 💖</button>
+<button onclick="noClick()" id="noBtn">NO 😢</button>
+
+<div id="message"></div>
+
+<div id="photos" style="display:none;">
+  <h2>Our Memories ❤️</h2>
+  <img src="photo1.jpg">
+  <img src="photo2.jpg">
+</div>
+
+<script>
+
+  // 🎵 Music Control
+let music = document.getElementById("bgMusic");
+let btn = document.getElementById("musicBtn");
+let isPlaying = false;
+
+function toggleMusic() {
+  if (isPlaying) {
+    music.pause();
+    btn.innerHTML = "▶️";
+  } else {
+    music.play();
+    btn.innerHTML = "⏸️";
+  }
+  isPlaying = !isPlaying;
+}
+
+// 💬 Typing Title
+let text = "I Love You Joyshree ❤️";
+let i = 0;
+
+function typeTitle() {
+  if (i < text.length) {
+    document.getElementById("title").innerHTML += text[i];
+    i++;
+    setTimeout(typeTitle, 100);
+  }
+}
+typeTitle();
+
+// 💌 Apology typing
+let msg = "I am really sorry... 💔\nYou mean everything to me.\nNo distance can change my love.\nPlease forgive me ❤️";
+let j = 0;
+
+function showMessage() {
+  typeMsg();
+}
+
+function typeMsg() {
+  if (j < msg.length) {
+    document.getElementById("message").innerHTML += 
+      msg[j] === "\n" ? "<br>" : msg[j];
+    j++;
+    setTimeout(typeMsg, 50);
+  }
+}
+
+// ❤️ Floating hearts
+function createHeart() {
+  let heart = document.createElement("div");
+  heart.innerHTML = "❤️";
+  heart.style.position = "fixed";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.top = "100vh";
+  heart.style.color = "#860B8C";
+
+  document.body.appendChild(heart);
+
+  let move = setInterval(() => {
+    heart.style.top = (heart.offsetTop - 2) + "px";
+  }, 20);
+
+  setTimeout(() => {
+    clearInterval(move);
+    heart.remove();
+  }, 4000);
+}
+setInterval(createHeart, 300);
+
+// 😄 NO button runs
+function noClick() {
+  let btn = document.getElementById("noBtn");
+  btn.style.position = "absolute";
+  btn.style.left = Math.random()*80 + "vw";
+  btn.style.top = Math.random()*80 + "vh";
+}
+
+// 💖 YES click
+function yesClick() {
+  showMessage();
+  document.getElementById("photos").style.display = "block";
+  startFireworks();
+}
+
+// 🎆 Fireworks
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function startFireworks() {
+  setInterval(() => {
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: canvas.width/2,
+        y: canvas.height/2,
+        vx: (Math.random()-0.5)*5,
+        vy: (Math.random()-0.5)*5,
+        life: 100
+      });
+    }
+  }, 500);
+}
+
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach((p, index) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life--;
+
+    ctx.fillStyle = "#860B8C";
+    ctx.fillRect(p.x, p.y, 3, 3);
+
+    if (p.life <= 0) particles.splice(index,1);
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+</script>
+
+</body>
+</html>
